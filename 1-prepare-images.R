@@ -1,5 +1,17 @@
 Sys.setenv('CUDA_VISIBLE_DEVICES' = "0")
 
+# STAGE 1: Prepare the images
+
+# I downloaded the set of images used in Konkle et al.
+# from this link: https://bradylab.ucsd.edu/stimuli/Scenes.zip
+
+# I did some cleanup on this set (some folders had 1-8 extra images;
+# some filenames had invalid characters).
+
+# This script will load all of the images, extract a Keras-appropriate
+# representation, extract the category label, and save the images as a single object.
+# To manage space, I downsized the images to 128 x 128 (originally 256 x 256). 
+
 library(stringr)
 library(keras)
 
@@ -35,7 +47,7 @@ for(f in exemplar.categories){
 all.data <- list(
   images = images,
   category_labels = image.category,
-  num_exemplars = image.exemplars
+  num_exemplars = as.numeric(image.exemplars)
 )
 
 saveRDS(all.data, file="scene-data.rds")
